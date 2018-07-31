@@ -59,6 +59,18 @@ namespace UnitTests
         }
 
         [Fact]
+        public void Random_Number_Should_Be_One_Fewer_Of_Character_Set_Length()
+        {
+            var rng = new NonRandomRandomNumberGeneratorSpy(expected: 0);
+            var characters = new SingleCharacterSetSpy(expected: 'a');
+            var generator = new RandomStringGenerator(rng, characters);
+
+            generator.GenerateString(1);
+
+            Assert.Equal(rng.Length - 1, rng.CapturedMaxValue);
+        }
+
+        [Fact]
         public void Should_Use_Characters_From_CharacterSet()
         {
             // in this setup, the rng will always return 0.

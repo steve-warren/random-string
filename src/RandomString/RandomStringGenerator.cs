@@ -9,12 +9,12 @@ namespace RandomString
     public sealed class RandomStringGenerator
     {
         private readonly IRandomNumberGenerator rng;
-        private readonly ICharacterSet pad;
+        private readonly ICharacterSet set;
 
-        public RandomStringGenerator(IRandomNumberGenerator rng, ICharacterSet pad)
+        public RandomStringGenerator(IRandomNumberGenerator rng, ICharacterSet set)
         {
             this.rng = rng;
-            this.pad = pad;
+            this.set = set;
         }
 
         /// <summary>
@@ -31,8 +31,8 @@ namespace RandomString
 
             for (var i = 0; i < length; i++)
             {
-                var random = rng.Next(pad.Length);
-                var value = pad.GetChar(random);
+                var random = rng.Next(set.Length - 1);
+                var value = set.GetChar(random);
 
                 builder.Append(value);
             }
