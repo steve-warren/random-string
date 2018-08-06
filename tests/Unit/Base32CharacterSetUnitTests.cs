@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using Xunit;
+using FluentAssertions;
 
 namespace UnitTests
 {
@@ -17,7 +18,7 @@ namespace UnitTests
             for (var i = 0; i < characters.Length; i ++)
                 chars.Add(characters.GetChar(i));
 
-            Assert.Equal(characters.Length, chars.Count);
+            chars.Should().HaveCount(characters.Length);
         }
 
         [Fact]
@@ -25,7 +26,7 @@ namespace UnitTests
         {
             var characters = new Base32CharacterSet();
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => characters.GetChar(-1));
+            ((Action) (() => characters.GetChar(-1))).Should().ThrowExactly<ArgumentOutOfRangeException>();
         }
 
         [Fact]
@@ -33,7 +34,7 @@ namespace UnitTests
         {
             var characters = new Base32CharacterSet();
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => characters.GetChar(characters.Length));
+            ((Action)(() => characters.GetChar(characters.Length))).Should().ThrowExactly<ArgumentOutOfRangeException>();
         }
     }
 }

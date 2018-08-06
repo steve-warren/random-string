@@ -8,10 +8,9 @@ namespace UnitTests
         {
             Expected = expected;
         }
-        public int Length => 1;
-        public int Expected { get; private set; }
+        public int Expected { get; }
         public int CallCount { get; private set; }
-        public int CapturedMaxValue { get; private set; }
+        public int CapturedMaxValue { get; private set; } = -1;
 
         public int Next(int maxValue)
         {

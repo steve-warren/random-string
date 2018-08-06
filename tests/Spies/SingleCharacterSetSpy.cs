@@ -15,7 +15,8 @@ namespace UnitTests
         public int Length => 1;
 
         public char Expected { get; }
-        public int CallCount { get; private set; }
+        public int CallCount { get; set; }
+        public int CapturedIndexValue { get; set; } = -1;
 
         /// <remarks>
         /// Only returns the value stored in the <see cref="Expected"/> property.
@@ -23,7 +24,7 @@ namespace UnitTests
         public char GetChar(int index)
         {
             CallCount++;
-
+            CapturedIndexValue = index;
             return Expected;
         }
     }

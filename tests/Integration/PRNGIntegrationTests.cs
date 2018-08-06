@@ -1,5 +1,6 @@
 ﻿using RandomString;
 using Xunit;
+using FluentAssertions;
 
 namespace UnitTests
 {
@@ -14,7 +15,7 @@ namespace UnitTests
 
             var token = generator.GenerateString(36);
 
-            Assert.False(string.IsNullOrWhiteSpace(token));
+            token.Should().NotBeNullOrWhiteSpace();
         }
     }
 }

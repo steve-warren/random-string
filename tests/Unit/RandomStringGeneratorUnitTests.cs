@@ -1,6 +1,7 @@
 using RandomString;
 using System;
 using Xunit;
+using FluentAssertions;
 
 namespace UnitTests
 {
@@ -11,7 +12,7 @@ namespace UnitTests
         {
             var generator = new RandomStringGenerator(new NonRandomRandomNumberGeneratorSpy(expected: 0), new SingleCharacterSetSpy(expected: 'a'));
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => generator.GenerateString(0));
+            ((Action) (() => generator.GenerateString(0))).Should().ThrowExactly<ArgumentOutOfRangeException>();
         }
 
         [Fact]
@@ -19,7 +20,7 @@ namespace UnitTests
         {
             var generator = new RandomStringGenerator(new NonRandomRandomNumberGeneratorSpy(expected: 0), new SingleCharacterSetSpy(expected: 'a'));
 
-            Assert.Throws<ArgumentOutOfRangeException>(() => generator.GenerateString(-1));
+            ((Action) (() => generator.GenerateString(-1))).Should().ThrowExactly<ArgumentOutOfRangeException>();
         }
 
         [Fact]
@@ -28,7 +29,7 @@ namespace UnitTests
             var generator = new RandomStringGenerator(new NonRandomRandomNumberGeneratorSpy(expected: 0), new SingleCharacterSetSpy(expected: 'a'));
             var length = 10;
 
-            Assert.Equal(length, generator.GenerateString(length).Length);
+            generator.GenerateString(length).Length.Should().Be(length);
         }
 
         [Fact]
@@ -41,7 +42,7 @@ namespace UnitTests
 
             generator.GenerateString(expected);
 
-            Assert.Equal(expected, rng.CallCount);
+            rng.CallCount.Should().Be(expected);
         }
 
         [Fact]
@@ -55,11 +56,11 @@ namespace UnitTests
 
             generator.GenerateString(expected);
 
-            Assert.Equal(expected, characters.CallCount);
+            characters.CallCount.Should().Be(expected);
         }
 
         [Fact]
-        public void Random_Number_Should_Be_One_Fewer_Of_Character_Set_Length()
+        public void Rng_Expects_Maximum_Value_To_Be_Length_Of_CharacterSet()
         {
             var rng = new NonRandomRandomNumberGeneratorSpy(expected: 0);
             var characters = new SingleCharacterSetSpy(expected: 'a');
@@ -67,7 +68,23 @@ namespace UnitTests
 
             generator.GenerateString(1);
 
-            Assert.Equal(rng.Length - 1, rng.CapturedMaxValue);
+            rng.CapturedMaxValue.Should().Be(0);
+        }
+
+        [Fact]
+        public void Character_Set_Expects_Same_Number_Returned_By_Rng()
+        {
+            // rng will always return as the number
+            var rng = new NonRandomRandomNumberGeneratorSpy(expected: 0);
+
+            // set will always return 'a'
+            var characters = new SingleCharacterSetSpy(expected: 'a');
+
+            var generator = new RandomStringGenerator(rng, characters);
+
+            generator.GenerateString(1);
+
+            characters.CapturedIndexValue.Should().Be(0);
         }
 
         [Fact]
@@ -82,10 +99,9 @@ namespace UnitTests
             var characters = new SingleCharacterSetSpy(expected: 'a');
             var generator = new RandomStringGenerator(rng, characters);
             
-            var expected = "aaaaa";
-            var actual = generator.GenerateString(expected.Length);
+            var randomString = generator.GenerateString(5);
 
-            Assert.Equal(expected, actual);
+            randomString.Should().Be("aaaaa");
         }
     }
 }
