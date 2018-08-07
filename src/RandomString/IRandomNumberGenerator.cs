@@ -6,6 +6,6 @@ namespace RandomString
 {
     public interface IRandomNumberGenerator
     {
-        int Next(int maxValue);
+        int Next(int maxValueExclusive);
     }
 }

@@ -31,7 +31,7 @@ namespace RandomString
 
             for (var i = 0; i < length; i++)
             {
-                var random = rng.Next(set.Length - 1);
+                var random = rng.Next(set.Length);
                 var value = set.GetChar(random);
 
                 builder.Append(value);

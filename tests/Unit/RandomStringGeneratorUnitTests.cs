@@ -68,7 +68,7 @@ namespace UnitTests
 
             generator.GenerateString(1);
 
-            rng.CapturedMaxValue.Should().Be(0);
+            rng.CapturedMaxValue.Should().Be(1);
         }
 
         [Fact]

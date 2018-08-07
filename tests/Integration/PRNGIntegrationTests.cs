@@ -9,7 +9,7 @@ namespace UnitTests
         [Fact]
         public void Token_Should_Not_Be_Null_Or_Empty()
         {
-            var rng = new PRNGRandomNumberGenerator();
+            var rng = new CryptoRandomNumberGenerator();
             var characters = new Base32CharacterSet();
             var generator = new RandomStringGenerator(rng, characters);
 
