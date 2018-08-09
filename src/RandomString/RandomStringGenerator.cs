@@ -8,13 +8,11 @@ namespace RandomString
     /// </summary>
     public sealed class RandomStringGenerator
     {
-        private readonly IRandomNumberGenerator rng;
-        private readonly ICharacterSet set;
+        private readonly IRandomCharacterSelector _selector;
 
-        public RandomStringGenerator(IRandomNumberGenerator rng, ICharacterSet set)
+        public RandomStringGenerator(IRandomCharacterSelector selector)
         {
-            this.rng = rng;
-            this.set = set;
+            _selector = selector;
         }
 
         /// <summary>
@@ -30,12 +28,7 @@ namespace RandomString
             var builder = new StringBuilder(length);
 
             for (var i = 0; i < length; i++)
-            {
-                var random = rng.Next(set.Length);
-                var value = set.GetChar(random);
-
-                builder.Append(value);
-            }
+                builder.Append(_selector.Next());
 
             return builder.ToString();
         }

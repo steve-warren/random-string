@@ -8,8 +8,4 @@
     <AssemblyName>RandomString</AssemblyName>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Inferno" Version="1.5.1" />
-  </ItemGroup>
-
 </Project>

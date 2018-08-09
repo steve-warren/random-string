@@ -4,8 +4,8 @@ using System.Text;
 
 namespace RandomString
 {
-    public interface IRandomNumberGenerator
+    public interface IRandomCharacterSelector
     {
-        int Next(int maxValueExclusive);
+        char Next();
     }
 }
